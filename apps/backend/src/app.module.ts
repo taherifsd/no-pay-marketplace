@@ -3,9 +3,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import databaseConfig from './config/database.config';
 
-// این دو خط را اضافه کن 👇
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+
+/* ⇩ موجودیت‌ها را اضافه کردیم */
+import { User } from './entities/user.entity';
+import { Vendor } from './entities/vendor.entity';
+import { Customer } from './entities/customer.entity';
 
 @Module({
   imports: [
@@ -22,12 +26,12 @@ import { AppService } from './app.service';
         username: config.get<string>('database.username'),
         password: config.get<string>('database.password'),
         database: config.get<string>('database.database'),
-        autoLoadEntities: true,
-        synchronize: true, // فقط در توسعه
+        /* ⇩ موجودیت‌ها را صریحاً ثبت کردیم */
+        entities: [User, Vendor, Customer],
+        synchronize: true,       // فقط در محیط توسعه
       }),
     }),
   ],
-  // این دو آرایه را برگردان 👇
   controllers: [AppController],
   providers: [AppService],
 })
